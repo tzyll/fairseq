@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-stage=0
+stage=1
 stop_stage=1
 
 wav_dir=/tzy/_corpus/aishell/wav/train
@@ -9,7 +9,7 @@ valid_percent=0.01
 
 dir=/fairseq/exp_aishell
 
-if [ $stage -le 0 ] && [ 0 -ge $stage ]; then
+if [ $stage -le 0 ] && [ 0 -le $stop_stage ]; then
     python3 examples/wav2vec/wav2vec_manifest.py \
         $wav_dir \
         --dest $dir \
@@ -17,7 +17,7 @@ if [ $stage -le 0 ] && [ 0 -ge $stage ]; then
         --valid-percent $valid_percent
 fi
 
-if [ $stage -le 1 ] && [ 1 -ge $stage ]; then
+if [ $stage -le 1 ] && [ 1 -le $stop_stage ]; then
     fairseq-hydra-train \
         task.data=$dir \
         --config-dir examples/wav2vec/config/pretraining \
